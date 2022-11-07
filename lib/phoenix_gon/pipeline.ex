@@ -11,7 +11,7 @@ defmodule PhoenixGon.Pipeline do
   @spec init(Keyword.t()) :: Map.t()
   def init(defaults) do
     %{
-      env: Keyword.get(defaults, :env, Mix.env()),
+      env: Keyword.get(defaults, :env, "prod"),
       assets: Keyword.get(defaults, :assets, %{}),
       namespace: Keyword.get(defaults, :namespace, nil),
       camel_case: Keyword.get(defaults, :camel_case, false)
@@ -46,7 +46,8 @@ defmodule PhoenixGon.Pipeline do
 
   @doc false
   @spec variables_with(Map.t()) :: PhoenixGon.Storage.t()
-  defp variables_with(%{assets: fun} = defaults) when is_function(fun), do: variables_with(Map.merge(defaults, %{assets: fun.()}))
-  defp variables_with(defaults), do: Map.merge(%PhoenixGon.Storage{}, defaults)
+  defp variables_with(%{assets: fun} = defaults) when is_function(fun),
+    do: variables_with(Map.merge(defaults, %{assets: fun.()}))
 
+  defp variables_with(defaults), do: Map.merge(%PhoenixGon.Storage{}, defaults)
 end
